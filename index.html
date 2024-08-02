@@ -7,7 +7,20 @@
     <title>Weather App API</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="container">
+      <nav>
+        <form action="" class="search-form">
+          <div class="form-container">
+            <label for="country-name-input">Country: </label>
+            <input class="country-name-input" type="text" id="country-name-input" placeholder="Enter country name...">
+          </div>
+          <div class="form-container">
+            <label for="select-continent">Select a continent: </label>
+            <select name="select-continent" id="select-continent"></select>
+          </div>
+        </form>
+      </nav>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
