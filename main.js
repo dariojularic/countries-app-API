@@ -5,17 +5,33 @@ const continentFilter = document.querySelector(".continent-filter");
 const searchForm = document.querySelector(".search-form");
 const overlay = document.querySelector(".overlay");
 const selectedCountry = document.querySelector(".selected-country");
-
+const countryList = document.querySelector(".grid-list");
+const selectedCountryFlag = document.querySelector(".selected-country-flag");
+const selectedCountryCapital = document.querySelector(".capital");
+const selectedCountryCurrency = document.querySelector(".currency");
+const selectedCountryLanguages = document.querySelector(".languages");
+const selectedCountryPopulation = document.querySelector(".population");
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", () => searchInputValue = searchInput.value)
 
+function displaySelectedCountry(image, capital, currency, languages, population) {
+  selectedCountryFlag.src = image;
+  selectedCountryCapital.textContent = capital;
+  selectedCountryCurrency.textContent = currency;
+  selectedCountryLanguages.textContent = languages;
+  selectedCountryPopulation.textContent = population;
+
+
+}
+
 async function getCountryByName(name) {
   const response = await fetch(baseUrl + `name/${name}`)
   const data = await response.json();
   console.log(data)
+  return data
 }
 
 async function getCountryByContinent(continent) {
@@ -35,6 +51,11 @@ searchForm.addEventListener("submit", (event) => {
   event.preventDefault()
 
   getCountryByName(searchInputValue)
+    .then(data => {
+      selectedCountryFlag.src = data[0].flags.png
+      console.log("data", data[0].flags)
+    })
+
 })
 
 overlay.addEventListener("click", () => {
