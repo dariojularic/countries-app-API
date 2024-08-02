@@ -17,11 +17,11 @@ const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", () => searchInputValue = searchInput.value)
 
-function displaySelectedCountry(image, capital, currency, languages, population) {
+function displaySelectedCountry(image, capital, currency, language, population) {
   selectedCountryFlag.src = image;
   selectedCountryCapital.textContent = capital;
   selectedCountryCurrency.textContent = currency;
-  selectedCountryLanguages.textContent = languages;
+  selectedCountryLanguages.textContent = language;
   selectedCountryPopulation.textContent = population;
 
 
@@ -52,8 +52,12 @@ searchForm.addEventListener("submit", (event) => {
 
   getCountryByName(searchInputValue)
     .then(data => {
+      const { flags: {png: image}, capital, currencies, languages, population} = data[0];
+      console.log("dataaafaf", languages[Object.keys(languages)])
+
+      displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population)
       selectedCountryFlag.src = data[0].flags.png
-      console.log("data", data[0].flags)
+      console.log("data", data[0].currencies)
     })
 
 })
