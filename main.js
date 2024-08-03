@@ -16,6 +16,7 @@ const selectedCountryName = document.querySelector(".span-name");
 // ireland ne radi, izbaci mi united kingdom
 // ocu filtrirat po regionu ili kontinentima??
 // georgia ne radi --- name ili full name API endpoint
+// paginacija
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;

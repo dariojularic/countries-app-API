@@ -84,7 +84,6 @@ main {
 
 .selected-country-flag {
   height: 100%;
-  /* object-fit: cover; */
   width: 60%;
 }
 
@@ -116,7 +115,6 @@ main {
 .list-flag-image {
   height: 90%;
   width: 100%;
-  /* object-fit: cover; */
 }
 
 .list-country-name {
