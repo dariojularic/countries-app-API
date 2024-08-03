@@ -57,7 +57,7 @@ main {
 }
 
 .selected-country {
-  position: absolute;
+  position: fixed;
   height: 300px;
   width: 800px;
   background-color: rgb(211, 215, 220);
@@ -77,14 +77,14 @@ main {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   transition: background-color 0.5s;
   visibility: hidden;
 }
 
 .selected-country-flag {
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
   width: 60%;
 }
 

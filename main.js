@@ -102,8 +102,8 @@ countryList.addEventListener("click", (event) => {
       })
       .catch(error => console.log(error))
 
-    overlay.style.visibility = "visible"
-    selectedCountry.style.visibility = "visible"
+    // overlay.style.visibility = "visible"
+    // selectedCountry.style.visibility = "visible"
 
   }
 })
