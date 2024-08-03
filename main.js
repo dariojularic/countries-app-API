@@ -94,7 +94,18 @@ continentFilter.addEventListener("input", (event) => {
 })
 
 countryList.addEventListener("click", (event) => {
-  
+  if (event.target.closest("li").getAttribute("data-name")) {
+    getCountryByName(event.target.closest("li").getAttribute("data-name"))
+      .then(data => {
+        const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
+        displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
+      })
+      .catch(error => console.log(error))
+
+    overlay.style.visibility = "visible"
+    selectedCountry.style.visibility = "visible"
+
+  }
 })
 
 overlay.addEventListener("click", () => {
