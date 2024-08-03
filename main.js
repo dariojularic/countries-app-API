@@ -15,6 +15,7 @@ const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
 // ireland ne radi, izbaci mi united kingdom
 // ocu filtrirat po regionu ili kontinentima??
+// georgia ne radi --- name ili full name API endpoint
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
@@ -97,6 +98,7 @@ countryList.addEventListener("click", (event) => {
   if (event.target.closest("li").getAttribute("data-name")) {
     getCountryByName(event.target.closest("li").getAttribute("data-name"))
       .then(data => {
+        console.log(data)
         const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
         displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
       })

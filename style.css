@@ -49,7 +49,7 @@ main {
 .grid-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  gap: 40px;
   height: 80%;
   list-style: none;
   width: 90%;
@@ -60,7 +60,7 @@ main {
   position: fixed;
   height: 360px;
   width: 880px;
-  background-color: rgb(211, 215, 220);
+  background-color: antiquewhite;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
