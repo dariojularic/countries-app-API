@@ -14,6 +14,7 @@ const selectedCountryLanguages = document.querySelector(".span-language");
 const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
 // ireland ne radi, izbaci mi united kingdom
+// ocu filtrirat po regionu ili kontinentima??
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
@@ -46,7 +47,7 @@ function displayCountriesList(countries) {
 async function getCountryByName(name) {
   const response = await fetch(baseUrl + `name/${name}`)
   const data = await response.json();
-  console.log(data)
+  // console.log(data)
   return data
 }
 
@@ -72,8 +73,6 @@ searchForm.addEventListener("submit", (event) => {
   getCountryByName(searchInputValue)
     .then(data => {
       const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
-      // console.log("dataaafaf", languages[Object.keys(languages)])
-
       displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
       // selectedCountryFlag.src = data[0].flags.png
       // console.log("data", name[Object.keys(name)[0]])
@@ -83,14 +82,15 @@ searchForm.addEventListener("submit", (event) => {
 })
 
 continentFilter.addEventListener("input", (event) => {
-  // console.log(event.target.value)
   if (event.target.value === "all") {
     getAllCountries()
       .then(data => displayCountriesList(data))
       .catch(error => console.log(error))
     return
   }
-  getCountryByContinent(event.target.value);
+  getCountryByContinent(event.target.value)
+    .then(data => displayCountriesList(data))
+    .catch(error => console.log(error))
 })
 
 countryList.addEventListener("click", (event) => {
@@ -101,10 +101,6 @@ countryList.addEventListener("click", (event) => {
         displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
       })
       .catch(error => console.log(error))
-
-    // overlay.style.visibility = "visible"
-    // selectedCountry.style.visibility = "visible"
-
   }
 })
 
