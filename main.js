@@ -32,17 +32,13 @@ function displaySelectedCountry(image, capital, currency, language, population ,
 }
 
 function displayCountriesList(countries) {
-  console.log("dadada", countries)
-
+  countryList.innerHTML = "";
   countries.forEach(country => {
     const { flags: {png: image}, name} = country
-    const html = `<li class="country-list-item">
+    const html = `<li class="country-list-item" data-name=${name[Object.keys(name)[0]]}>
                     <p class="list-country-name">${name[Object.keys(name)[0]]}</p>
                     <img src=${image} class="list-flag-image">
                   </li>`
-    console.log("country", country)
-    console.log("image", image)
-    console.log("name", name)
     countryList.insertAdjacentHTML("beforeend", html)
   })
 }
@@ -95,6 +91,10 @@ continentFilter.addEventListener("input", (event) => {
     return
   }
   getCountryByContinent(event.target.value);
+})
+
+countryList.addEventListener("click", (event) => {
+  
 })
 
 overlay.addEventListener("click", () => {
