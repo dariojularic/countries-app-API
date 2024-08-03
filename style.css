@@ -57,13 +57,15 @@ main {
 
 .selected-country {
   position: absolute;
-  height: 70vh;
-  width: 80vw;
+  height: 300px;
+  width: 800px;
   background-color: rgb(211, 215, 220);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* visibility: hidden; */
+  display: flex;
+  visibility: hidden;
+  z-index: 2;
 }
 
 .overlay {
@@ -77,4 +79,45 @@ main {
   background-color: rgba(0, 0, 0, 0.5);
   transition: background-color 0.5s;
   visibility: hidden;
+}
+
+.selected-country-flag {
+  height: 100%;
+  object-fit: cover;
+  width: 60%;
+}
+
+.country-info {
+  background-color: antiquewhite;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.country-info > h2, p {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.country-list-item {
+  /* background-color: red; */
+  height: 180px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-flag-image {
+  height: 90%;
+  width: 100%;
+  /* object-fit: cover; */
+}
+
+.list-country-name {
+  margin: 0;
+  justify-content: center;
 }
