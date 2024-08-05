@@ -106,8 +106,6 @@ async function getAllCountries() {
   return data
 }
 
-// fetchFactory() i prima url
-
 searchForm.addEventListener("submit", async (event) => {
   event.preventDefault()
   const data = await getCountryByName(searchInputValue)
