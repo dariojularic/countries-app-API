@@ -93,30 +93,29 @@ async function factoryFetch(url) {
   const data = await response.json();
   return data
 }
-async function getCountryByName(name) {
-  const response = await fetch(baseUrl + `name/${name}`)
-  const data = await response.json();
-  return data
-}
+// async function getCountryByName(name) {
+//   const response = await fetch(baseUrl + `name/${name}`)
+//   const data = await response.json();
+//   return data
+// }
 
-async function getCountryByRegion(region) {
-  const response = await fetch(baseUrl + `region/${region}`)
-  const data = await response.json();
-  return data
-}
+// async function getCountryByRegion(region) {
+//   const response = await fetch(baseUrl + `region/${region}`)
+//   const data = await response.json();
+//   return data
+// }
 
-async function getAllCountries() {
-  const response = await fetch(baseUrl + `all`)
-  const data = await response.json();
-  console.log(data)
-  return data
-}
+// async function getAllCountries() {
+//   const response = await fetch(baseUrl + `all`)
+//   const data = await response.json();
+//   console.log(data)
+//   return data
+// }
 
 searchForm.addEventListener("submit",  (event) => {
   event.preventDefault()
   const url = baseUrl + `name/${searchInputValue}`
   factoryFetch(url)
-  // getCountryByName(searchInputValue)
     .then(data => {
       const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
       displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
@@ -129,7 +128,6 @@ regionFilter.addEventListener("input", (event) => {
   if (event.target.value === "all") {
     const url = baseUrl + event.target.value;
     factoryFetch(url)
-    // getAllCountries()
       .then(data => {
         countriesManager.setAllCountries(data)
         displayCountriesList(data)
@@ -140,7 +138,6 @@ regionFilter.addEventListener("input", (event) => {
   }
   const url = baseUrl + `region/${event.target.value}`
   factoryFetch(url)
-  // getCountryByRegion(event.target.value)
     .then(data => displayCountriesList(data))
     .catch(error => console.log(error))
 })
