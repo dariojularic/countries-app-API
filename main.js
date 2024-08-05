@@ -144,7 +144,9 @@ regionFilter.addEventListener("input", (event) => {
 
 countryList.addEventListener("click", (event) => {
   if (event.target.closest("li").getAttribute("data-name")) {
-    getCountryByName(event.target.closest("li").getAttribute("data-name"))
+    // getCountryByName(event.target.closest("li").getAttribute("data-name"))
+    const url = baseUrl + event.target.closest("li").getAttribute("data-name")
+    factoryFetch(url)
       .then(data => {
         console.log(data)
         const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
