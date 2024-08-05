@@ -87,6 +87,12 @@ function displayCountriesList(countries) {
   })
 }
 // try catch i toastify
+
+async function factoryFetch(url) {
+  const response = await fetch(url)
+  const data = await response.json();
+  return data
+}
 async function getCountryByName(name) {
   const response = await fetch(baseUrl + `name/${name}`)
   const data = await response.json();
@@ -106,10 +112,8 @@ async function getAllCountries() {
   return data
 }
 
-searchForm.addEventListener("submit", async (event) => {
+searchForm.addEventListener("submit",  (event) => {
   event.preventDefault()
-  const data = await getCountryByName(searchInputValue)
-  console.log("data", data)
   getCountryByName(searchInputValue)
     .then(data => {
       const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
