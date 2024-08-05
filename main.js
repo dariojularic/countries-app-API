@@ -114,7 +114,9 @@ async function getAllCountries() {
 
 searchForm.addEventListener("submit",  (event) => {
   event.preventDefault()
-  getCountryByName(searchInputValue)
+  const url = baseUrl + `name/${searchInputValue}`
+  factoryFetch(url)
+  // getCountryByName(searchInputValue)
     .then(data => {
       const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
       displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
@@ -127,7 +129,7 @@ regionFilter.addEventListener("input", (event) => {
   if (event.target.value === "all") {
     getAllCountries()
       .then(data => {
-        countriesManager.setCountries(data)
+        countriesManager.setAllCountries(data)
         displayCountriesList(data)
         paginateCountries(data)
       })
