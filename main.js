@@ -29,11 +29,6 @@ searchInput.addEventListener("input", (event) => searchInputValue = event.target
 // how to paginate an array in to 10 pages
 // how to make 2D array from a single array
 
-
-// for (let i = 0; i < numbers.length; i += chunkSize) {
-//     chunks.push(numbers.slice(i, i + chunkSize));
-// }
-
 class CountriesManager{
   constructor() {
     this.allCountries = []
