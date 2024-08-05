@@ -55,6 +55,24 @@ class CountriesManager{
 
 const countriesManager = new CountriesManager();
 
+function addToastify(errorMessage) {
+  Toastify({
+    text: errorMessage,
+    duration: 3000,
+    close: true,
+    gravity: "bottom",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "linear-gradient(to right, #00b09b, #96c93d)"
+    },
+    offset: {
+      x: 50,
+      y: 10
+    }
+  }).showToast();
+}
+
 function paginateCountries(countries) {
   let chunks = [];
   const chunkSize = 10;
@@ -88,6 +106,7 @@ function displayCountriesList(countries) {
     countryList.insertAdjacentHTML("beforeend", html)
   })
 }
+
 // try catch i toastify
 
 async function factoryFetch(url) {
@@ -97,7 +116,7 @@ async function factoryFetch(url) {
     const data = await response.json();
     return data
   } catch (error) {
-
+    addToastify(error)
   }
 }
 
