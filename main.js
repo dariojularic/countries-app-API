@@ -61,7 +61,7 @@ function paginateCountries(countries) {
   for (let i = 0; i < countries.length; i += chunkSize) {
     chunks.push(countries.slice(i, i + chunkSize))
   }
-  console.log("paginated chunks", chunks)
+  // console.log("paginated chunks", chunks)
 }
 
 function displaySelectedCountry(image, capital, currency, language, population , name) {
@@ -144,11 +144,9 @@ regionFilter.addEventListener("input", (event) => {
 
 countryList.addEventListener("click", (event) => {
   if (event.target.closest("li").getAttribute("data-name")) {
-    // getCountryByName(event.target.closest("li").getAttribute("data-name"))
-    const url = baseUrl + event.target.closest("li").getAttribute("data-name")
+    const url = baseUrl + `name/${event.target.closest("li").getAttribute("data-name")}`
     factoryFetch(url)
       .then(data => {
-        console.log(data)
         const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
         displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
       })
