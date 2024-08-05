@@ -29,9 +29,6 @@ searchInput.addEventListener("input", (event) => searchInputValue = event.target
 // how to paginate an array in to 10 pages
 // how to make 2D array from a single array
 
-// let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-// let chunkSize = 3;
-// let chunks = [];
 
 // for (let i = 0; i < numbers.length; i += chunkSize) {
 //     chunks.push(numbers.slice(i, i + chunkSize));
