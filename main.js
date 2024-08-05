@@ -127,7 +127,9 @@ searchForm.addEventListener("submit",  (event) => {
 
 regionFilter.addEventListener("input", (event) => {
   if (event.target.value === "all") {
-    getAllCountries()
+    const url = baseUrl + event.target.value;
+    factoryFetch(url)
+    // getAllCountries()
       .then(data => {
         countriesManager.setAllCountries(data)
         displayCountriesList(data)
@@ -136,7 +138,9 @@ regionFilter.addEventListener("input", (event) => {
       .catch(error => console.log(error))
     return
   }
-  getCountryByRegion(event.target.value)
+  const url = baseUrl + `region/${event.target.value}`
+  factoryFetch(url)
+  // getCountryByRegion(event.target.value)
     .then(data => displayCountriesList(data))
     .catch(error => console.log(error))
 })
