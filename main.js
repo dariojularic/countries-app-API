@@ -2,7 +2,7 @@ import './style.css';
 import numeral from 'numeral';
 
 const searchInput = document.querySelector(".country-name-input");
-const continentFilter = document.querySelector(".continent-filter");
+const regionFilter = document.querySelector(".region-filter");
 const searchForm = document.querySelector(".search-form");
 const overlay = document.querySelector(".overlay");
 const selectedCountry = document.querySelector(".selected-country");
@@ -35,6 +35,7 @@ function displaySelectedCountry(image, capital, currency, language, population ,
 }
 
 function displayCountriesList(countries) {
+  // console.log(countries)region
   countryList.innerHTML = "";
   countries.forEach(country => {
     const { flags: {png: image}, name} = country
@@ -53,8 +54,8 @@ async function getCountryByName(name) {
   return data
 }
 
-async function getCountryByContinent(continent) {
-  const response = await fetch(baseUrl + `region/${continent}`)
+async function getCountryByRegion(region) {
+  const response = await fetch(baseUrl + `region/${region}`)
   const data = await response.json();
   // console.log(data)
   return data
@@ -63,11 +64,8 @@ async function getCountryByContinent(continent) {
 async function getAllCountries() {
   const response = await fetch(baseUrl + `all`)
   const data = await response.json();
-  // console.log(data)
   return data
 }
-
-getAllCountries()
 
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault()
@@ -83,14 +81,14 @@ searchForm.addEventListener("submit", (event) => {
 
 })
 
-continentFilter.addEventListener("input", (event) => {
+regionFilter.addEventListener("input", (event) => {
   if (event.target.value === "all") {
     getAllCountries()
       .then(data => displayCountriesList(data))
       .catch(error => console.log(error))
     return
   }
-  getCountryByContinent(event.target.value)
+  getCountryByRegion(event.target.value)
     .then(data => displayCountriesList(data))
     .catch(error => console.log(error))
 })

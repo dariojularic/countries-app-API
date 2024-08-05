@@ -24,7 +24,7 @@ nav {
   align-items: center;
 }
 
-.country-name-input, .continent-filter {
+.country-name-input, .region-filter {
   height: 40px;
   width: 260px;
   border-radius: 16px;
