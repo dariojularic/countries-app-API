@@ -65,7 +65,6 @@ function paginateCountries(countries) {
 }
 
 function displaySelectedCountry(image, capital, currency, language, population , name) {
-  // const html = template literal i onda taj insertam, a prije obrisem
   selectedCountryFlag.src = image;
   selectedCountryCapital.textContent = capital;
   selectedCountryCurrency.textContent = currency;
@@ -91,7 +90,6 @@ function displayCountriesList(countries) {
 async function getCountryByName(name) {
   const response = await fetch(baseUrl + `name/${name}`)
   const data = await response.json();
-  // console.log(data)
   return data
 }
 
