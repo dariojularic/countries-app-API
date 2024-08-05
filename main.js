@@ -1,5 +1,6 @@
 import './style.css';
 import numeral from 'numeral';
+import Toastify from 'toastify-js'
 
 const searchInput = document.querySelector(".country-name-input");
 const regionFilter = document.querySelector(".region-filter");
@@ -57,6 +58,7 @@ const countriesManager = new CountriesManager();
 function paginateCountries(countries) {
   let chunks = [];
   const chunkSize = 10;
+  // let numOfPages = 0;
 
   for (let i = 0; i < countries.length; i += chunkSize) {
     chunks.push(countries.slice(i, i + chunkSize))
@@ -89,28 +91,15 @@ function displayCountriesList(countries) {
 // try catch i toastify
 
 async function factoryFetch(url) {
-  const response = await fetch(url)
-  const data = await response.json();
-  return data
+  try {
+    const response = await fetch(url)
+    if (response.status !== 200) throw new Error("Something went wrong!");
+    const data = await response.json();
+    return data
+  } catch (error) {
+
+  }
 }
-// async function getCountryByName(name) {
-//   const response = await fetch(baseUrl + `name/${name}`)
-//   const data = await response.json();
-//   return data
-// }
-
-// async function getCountryByRegion(region) {
-//   const response = await fetch(baseUrl + `region/${region}`)
-//   const data = await response.json();
-//   return data
-// }
-
-// async function getAllCountries() {
-//   const response = await fetch(baseUrl + `all`)
-//   const data = await response.json();
-//   console.log(data)
-//   return data
-// }
 
 searchForm.addEventListener("submit",  (event) => {
   event.preventDefault()
@@ -121,7 +110,6 @@ searchForm.addEventListener("submit",  (event) => {
       displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
     })
     .catch(error => console.log(error))
-
 })
 
 regionFilter.addEventListener("input", (event) => {
