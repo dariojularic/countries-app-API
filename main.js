@@ -15,16 +15,11 @@ const selectedCountryLanguages = document.querySelector(".span-language");
 const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
 const pagination = document.querySelector(".pagination");
-// ireland ne radi, izbaci mi united kingdom
-// ocu filtrirat po regionu ili kontinentima??
-// georgia i south korea ne radi --- name ili full name API endpoint
-// paginacija
+
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", (event) => searchInputValue = event.target.value)
-
-
 // paginateCountries()
 // CountriesManager
 // how to split an array in to 10 small arrays
@@ -76,7 +71,6 @@ class CountriesManager{
       pagination.insertAdjacentHTML("beforeend", html)
       pageNumber++
     }
-    // console.log("paginated chunks", chunks)
   }
 }
 
@@ -154,7 +148,6 @@ regionFilter.addEventListener("input", (event) => {
       .then(data => {
         countriesManager.paginateCountries(data)
         countriesManager.setActivePage(1)
-        // console.log(countriesManager.getAllCountries()[countriesManager.getActivePage()])
         displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
       })
       .catch(error => console.log(error))
