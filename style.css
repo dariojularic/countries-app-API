@@ -60,13 +60,15 @@ main {
   position: fixed;
   height: 360px;
   width: 880px;
-  background-color:  rgb(239, 209, 170);
+  background-color:  rgb(196, 189, 181);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   visibility: hidden;
   z-index: 2;
+  padding: 40px;
+
 }
 
 .overlay {
@@ -88,7 +90,7 @@ main {
 }
 
 .country-info {
-  background-color:  rgb(239, 209, 170);
+  background-color:  rgb(196, 189, 181);
   width: 40%;
   display: flex;
   align-items: center;
