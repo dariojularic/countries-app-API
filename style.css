@@ -68,7 +68,7 @@ main {
   visibility: hidden;
   z-index: 2;
   padding: 40px;
-
+  border-radius: 16px;
 }
 
 .overlay {
