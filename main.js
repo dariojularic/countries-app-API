@@ -65,9 +65,8 @@ class CountriesManager{
 
     for (let i = 0; i < countries.length; i += chunkSize) {
       this.allCountries.push(countries.slice(i, i + chunkSize))
-      const html = `<li class="pagination-list-item">
-                      <p class="pagination-number item-${pageNumber}">${pageNumber}</p>
-                    </li>`
+      const html = `<li class="pagination-list-item item-${pageNumber}">${pageNumber}</li>`
+      // <p class="pagination-number item-${pageNumber}">${pageNumber}</p>
       pagination.insertAdjacentHTML("beforeend", html)
       pageNumber++
     }
@@ -174,11 +173,13 @@ countryList.addEventListener("click", (event) => {
       .catch(error => console.log(error))
   }
 })
-
+// napravit da activePage ima drugi background color
 pagination.addEventListener("click", (event) => {
   if (event.target.closest("li").classList.contains("pagination-list-item")) {
-    console.log(event.target.closest("li").classList.contains("pagination-list-item"))
-    displayCountriesList(countriesManager.getAllCountries()[event.target.innerHTML - 1])
+    // if (pagination.querySelector(`.item-${countriesManager.getActivePage()}`))
+    const listItem = event.target.closest("li");
+    // console.log(pagination.querySelector(`.item-${countriesManager.getActivePage()}`))
+    displayCountriesList(countriesManager.getAllCountries()[listItem.textContent - 1])
     const number = pagination.querySelector(`.item-${countriesManager.getActivePage()}`)
   }
 })
