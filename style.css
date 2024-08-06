@@ -150,7 +150,7 @@ main {
   align-self: center;
   height: 100%;
   width: 100%;
-  background-color: red;
+  /* background-color: red; */
   border-radius: 50%;
   display: flex;
   justify-content: center;

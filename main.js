@@ -65,16 +65,16 @@ class CountriesManager{
   paginateCountries(countries) {
     this.allCountries = [];
     const chunkSize = 10;
-    let numOfPages = 1;
+    let pageNumber = 1;
     pagination.innerHTML = "";
 
     for (let i = 0; i < countries.length; i += chunkSize) {
       this.allCountries.push(countries.slice(i, i + chunkSize))
       const html = `<li class="pagination-list-item">
-                      <p class="pagination-number">${numOfPages}</p>
+                      <p class="pagination-number item-${pageNumber}">${pageNumber}</p>
                     </li>`
       pagination.insertAdjacentHTML("beforeend", html)
-      numOfPages++
+      pageNumber++
     }
     // console.log("paginated chunks", chunks)
   }
@@ -186,7 +186,7 @@ pagination.addEventListener("click", (event) => {
   if (event.target.closest("li").classList.contains("pagination-list-item")) {
     console.log(event.target.closest("li").classList.contains("pagination-list-item"))
     displayCountriesList(countriesManager.getAllCountries()[event.target.innerHTML - 1])
-
+    const number = pagination.querySelector(`.item-${countriesManager.getActivePage()}`)
   }
 })
 
