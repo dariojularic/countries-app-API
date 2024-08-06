@@ -35,6 +35,15 @@ class CountriesManager{
   constructor() {
     this.allCountries = []
     this.countriesToDisplay = []
+    this.activePage = "";
+  }
+
+  setActivePage(pageNumber) {
+    this.activePage = pageNumber
+  }
+
+  getActivePage() {
+    return this.activePage;
   }
 
   setAllCountries(countries) {
@@ -144,8 +153,9 @@ regionFilter.addEventListener("input", (event) => {
     factoryFetch(url)
       .then(data => {
         countriesManager.paginateCountries(data)
-        console.log(countriesManager.getAllCountries()[0])
-        displayCountriesList(countriesManager.getAllCountries()[0])
+        countriesManager.setActivePage(1)
+        // console.log(countriesManager.getAllCountries()[countriesManager.getActivePage()])
+        displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
       })
       .catch(error => console.log(error))
     return
@@ -154,7 +164,8 @@ regionFilter.addEventListener("input", (event) => {
   factoryFetch(url)
     .then(data => {
       countriesManager.paginateCountries(data)
-      displayCountriesList(countriesManager.getAllCountries()[0])
+      countriesManager.setActivePage(1)
+      displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
     })
     .catch(error => console.log(error))
 })
