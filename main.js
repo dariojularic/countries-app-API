@@ -14,6 +14,7 @@ const selectedCountryCurrency = document.querySelector(".span-currency");
 const selectedCountryLanguages = document.querySelector(".span-language");
 const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
+const pagination = document.querySelector(".pagination");
 // ireland ne radi, izbaci mi united kingdom
 // ocu filtrirat po regionu ili kontinentima??
 // georgia i south korea ne radi --- name ili full name API endpoint
@@ -51,6 +52,22 @@ class CountriesManager{
   getCountriesToDisplay() {
     return this.countriesToDisplay
   }
+
+  paginateCountries(countries) {
+    this.allCountries = [];
+    const chunkSize = 10;
+    let numOfPages = 1;
+
+    for (let i = 0; i < countries.length; i += chunkSize) {
+      this.allCountries.push(countries.slice(i, i + chunkSize))
+      const html = `<li class="pagination-list-item">
+                      <p class="pagination-number">${numOfPages}</p>
+                    </li>`
+      pagination.insertAdjacentHTML("beforeend", html)
+      numOfPages++
+    }
+    // console.log("paginated chunks", chunks)
+  }
 }
 
 const countriesManager = new CountriesManager();
@@ -73,16 +90,6 @@ function addToastify(errorMessage) {
   }).showToast();
 }
 
-function paginateCountries(countries) {
-  let chunks = [];
-  const chunkSize = 10;
-  // let numOfPages = 0;
-
-  for (let i = 0; i < countries.length; i += chunkSize) {
-    chunks.push(countries.slice(i, i + chunkSize))
-  }
-  // console.log("paginated chunks", chunks)
-}
 
 function displaySelectedCountry(image, capital, currency, language, population , name) {
   selectedCountryFlag.src = image;
@@ -136,9 +143,13 @@ regionFilter.addEventListener("input", (event) => {
     const url = baseUrl + event.target.value;
     factoryFetch(url)
       .then(data => {
-        countriesManager.setAllCountries(data)
-        displayCountriesList(data)
-        paginateCountries(data)
+        countriesManager.paginateCountries(data)
+        // countriesManager.setAllCountries(data)
+        // console.log(countriesManager.getCountriesToDisplay())
+        console.log(countriesManager.getAllCountries()[0])
+
+        displayCountriesList(countriesManager.getAllCountries()[0])
+        // console.log(countriesManager.getCountriesToDisplay())
       })
       .catch(error => console.log(error))
     return
