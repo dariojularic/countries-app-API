@@ -133,4 +133,10 @@ main {
 .pagination-list-item {
   margin-right: 16px;
   cursor: pointer;
+  font-size: 24px;
+}
+
+.pagination-list-item:hover {
+  scale: 1.5;
+  transition: scale 0.3s;
 }
