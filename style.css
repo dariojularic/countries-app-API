@@ -134,9 +134,20 @@ main {
   margin-right: 16px;
   cursor: pointer;
   font-size: 24px;
+  border-radius: 50%;
+  background-color: red;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination-list-item:hover {
   scale: 1.5;
   transition: scale 0.3s;
+}
+
+.pagination-number {
+  align-self: center;
 }
