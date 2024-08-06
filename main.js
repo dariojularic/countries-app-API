@@ -172,6 +172,11 @@ countryList.addEventListener("click", (event) => {
   }
 })
 
+pagination.addEventListener("click", (event) => {
+  console.log(event.target.innerHTML)
+  displayCountriesList(countriesManager.getAllCountries()[event.target.innerHTML - 1])
+})
+
 overlay.addEventListener("click", () => {
   overlay.style.visibility = "hidden"
   selectedCountry.style.visibility = "hidden"

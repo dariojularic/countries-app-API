@@ -136,8 +136,8 @@ main {
   font-size: 24px;
   border-radius: 50%;
   background-color: red;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,4 +150,6 @@ main {
 
 .pagination-number {
   align-self: center;
+  height: 100%;
+  width: 100%;
 }
