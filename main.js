@@ -57,6 +57,7 @@ class CountriesManager{
     this.allCountries = [];
     const chunkSize = 10;
     let numOfPages = 1;
+    pagination.innerHTML = "";
 
     for (let i = 0; i < countries.length; i += chunkSize) {
       this.allCountries.push(countries.slice(i, i + chunkSize))
@@ -89,7 +90,6 @@ function addToastify(errorMessage) {
     }
   }).showToast();
 }
-
 
 function displaySelectedCountry(image, capital, currency, language, population , name) {
   selectedCountryFlag.src = image;
@@ -144,19 +144,18 @@ regionFilter.addEventListener("input", (event) => {
     factoryFetch(url)
       .then(data => {
         countriesManager.paginateCountries(data)
-        // countriesManager.setAllCountries(data)
-        // console.log(countriesManager.getCountriesToDisplay())
         console.log(countriesManager.getAllCountries()[0])
-
         displayCountriesList(countriesManager.getAllCountries()[0])
-        // console.log(countriesManager.getCountriesToDisplay())
       })
       .catch(error => console.log(error))
     return
   }
   const url = baseUrl + `region/${event.target.value}`
   factoryFetch(url)
-    .then(data => displayCountriesList(data))
+    .then(data => {
+      countriesManager.paginateCountries(data)
+      displayCountriesList(countriesManager.getAllCountries()[0])
+    })
     .catch(error => console.log(error))
 })
 
