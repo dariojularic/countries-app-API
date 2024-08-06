@@ -134,8 +134,6 @@ main {
   margin-right: 16px;
   cursor: pointer;
   font-size: 24px;
-  border-radius: 50%;
-  background-color: red;
   height: 40px;
   width: 40px;
   display: flex;
@@ -152,4 +150,9 @@ main {
   align-self: center;
   height: 100%;
   width: 100%;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

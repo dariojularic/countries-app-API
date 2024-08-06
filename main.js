@@ -172,8 +172,11 @@ countryList.addEventListener("click", (event) => {
 })
 
 pagination.addEventListener("click", (event) => {
-  console.log(event.target.innerHTML)
-  displayCountriesList(countriesManager.getAllCountries()[event.target.innerHTML - 1])
+  if (event.target.closest("li").classList.contains("pagination-list-item")) {
+    console.log(event.target.closest("li").classList.contains("pagination-list-item"))
+    displayCountriesList(countriesManager.getAllCountries()[event.target.innerHTML - 1])
+
+  }
 })
 
 overlay.addEventListener("click", () => {
