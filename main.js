@@ -36,6 +36,7 @@ class CountriesManager{
     this.allCountries = []
     this.countriesToDisplay = []
     this.activePage = "";
+    this.selectedCountry = null
   }
 
   setActivePage(pageNumber) {
