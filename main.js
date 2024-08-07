@@ -19,16 +19,17 @@ const paginationContainer = document.querySelector(".pagination-container");
 const closeBtn = document.querySelector(".fa-x");
 
 let searchInputValue = "";
+// ocu baseUrl stavit unutar klase???
 const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", (event) => searchInputValue = event.target.value)
 // iks za ugasit prozor, paginacija 20 zemalja po stranici, default all fetch
 // paginate contries samo paginira i vrati, a setactiveCountries setuje
+
+
 // activeCountries = activeCountries
 // selectedCountry u state
 // selectedCoubtry = "" kad stisnem na iks/null
-
-
 
 
 class CountriesManager{
