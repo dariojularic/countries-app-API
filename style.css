@@ -177,9 +177,9 @@ main {
   transition: scale 0.3s;
 }
 
-.fa-x {
+/* .fa-x {
   position: absolute;
   top: 8px;
   right: 16px;
   cursor: pointer;
-}
+} */
