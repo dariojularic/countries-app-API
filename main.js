@@ -34,7 +34,6 @@ searchInput.addEventListener("input", (event) => searchInputValue = event.target
 class CountriesManager{
   constructor() {
     this.allCountries = []
-    this.countriesToDisplay = []
     this.activePage = "";
     this.selectedCountry = null
   }
@@ -53,14 +52,6 @@ class CountriesManager{
 
   getAllCountries() {
     return this.allCountries
-  }
-
-  setCountriesToDisplay(countries) {
-    this.countriesToDisplay = countries
-  }
-
-  getCountriesToDisplay() {
-    return this.countriesToDisplay
   }
 
   paginateCountries(countries) {
