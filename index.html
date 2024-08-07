@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App API</title>
   </head>
@@ -48,7 +49,12 @@
           <p class="population"><span>Population: </span><span class="span-population"></span></p>
         </div>
       </div>
-      <ol class="pagination"></ol>
+
+      <div class="pagination-container">
+        <i class="fa-solid fa-arrow-left"></i>
+        <ol class="pagination"></ol>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
       <div class="overlay"></div>
     </div>
     <script type="module" src="/main.js"></script>

@@ -15,6 +15,7 @@ const selectedCountryLanguages = document.querySelector(".span-language");
 const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
 const pagination = document.querySelector(".pagination");
+const paginationContainer = document.querySelector(".pagination-container");
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
@@ -66,10 +67,11 @@ class CountriesManager{
     for (let i = 0; i < countries.length; i += chunkSize) {
       this.allCountries.push(countries.slice(i, i + chunkSize))
       const html = `<li class="pagination-list-item item-${pageNumber}">${pageNumber}</li>`
-      // <p class="pagination-number item-${pageNumber}">${pageNumber}</p>
       pagination.insertAdjacentHTML("beforeend", html)
       pageNumber++
     }
+    this.setActivePage(1)
+    pagination.querySelector(`.item-${this.getActivePage()}`).classList.add("selected-page")
   }
 }
 
@@ -115,7 +117,6 @@ function displayCountriesList(countries) {
     countryList.insertAdjacentHTML("beforeend", html)
   })
 }
-
 // try catch i toastify
 
 async function factoryFetch(url) {
@@ -145,18 +146,17 @@ regionFilter.addEventListener("input", (event) => {
     const url = baseUrl + event.target.value;
     factoryFetch(url)
       .then(data => {
-        countriesManager.paginateCountries(data)
         countriesManager.setActivePage(1)
+        countriesManager.paginateCountries(data)
         displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
       })
       .catch(error => console.log(error))
-    return
-  }
-  const url = baseUrl + `region/${event.target.value}`
-  factoryFetch(url)
+      return
+    }
+    const url = baseUrl + `region/${event.target.value}`
+    factoryFetch(url)
     .then(data => {
       countriesManager.paginateCountries(data)
-      countriesManager.setActivePage(1)
       displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
     })
     .catch(error => console.log(error))
@@ -173,14 +173,30 @@ countryList.addEventListener("click", (event) => {
       .catch(error => console.log(error))
   }
 })
-// napravit da activePage ima drugi background color
+
 pagination.addEventListener("click", (event) => {
   if (event.target.closest("li").classList.contains("pagination-list-item")) {
-    // if (pagination.querySelector(`.item-${countriesManager.getActivePage()}`))
     const listItem = event.target.closest("li");
-    // console.log(pagination.querySelector(`.item-${countriesManager.getActivePage()}`))
+    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+    countriesManager.setActivePage(listItem.textContent)
+    listItem.classList.add("selected-page");
     displayCountriesList(countriesManager.getAllCountries()[listItem.textContent - 1])
-    const number = pagination.querySelector(`.item-${countriesManager.getActivePage()}`)
+  }
+})
+
+paginationContainer.addEventListener("click", (event) => {
+  if (event.target.classList.contains("fa-arrow-left") && countriesManager.getActivePage() > 1) {
+    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+    countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) - 1);
+    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
+    displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
+  }
+
+  if (event.target.classList.contains("fa-arrow-right") && countriesManager.getActivePage() < countriesManager.getAllCountries().length) {
+    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+    countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) + 1);
+    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
+    displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
   }
 })
 
