@@ -130,7 +130,6 @@ function displayCountriesList(countries) {
     countryList.insertAdjacentHTML("beforeend", html)
   })
 }
-// try catch i toastify
 
 async function factoryFetch(url) {
   try {
