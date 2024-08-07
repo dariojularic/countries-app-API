@@ -16,16 +16,20 @@ const selectedCountryPopulation = document.querySelector(".span-population");
 const selectedCountryName = document.querySelector(".span-name");
 const pagination = document.querySelector(".pagination");
 const paginationContainer = document.querySelector(".pagination-container");
+const closeBtn = document.querySelector(".fa-x");
 
 let searchInputValue = "";
 const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", (event) => searchInputValue = event.target.value)
-// paginateCountries()
-// CountriesManager
-// how to split an array in to 10 small arrays
-// how to paginate an array in to 10 pages
-// how to make 2D array from a single array
+// iks za ugasit prozor, paginacija 20 zemalja po stranici, default all fetch
+// paginate contries samo paginira i vrati, a setAllCountries setuje
+// allCOuntries = activeCountries
+// selectedCountry u state
+// selectedCoubtry = "" kad stisnem na iks/null
+
+
+
 
 class CountriesManager{
   constructor() {
@@ -77,6 +81,10 @@ class CountriesManager{
 
 const countriesManager = new CountriesManager();
 
+// window.addEventListener('DOMContentLoaded', (event) => {
+//   console.log('DOM fully loaded and parsed');
+// });
+
 function addToastify(errorMessage) {
   Toastify({
     text: errorMessage,
@@ -86,7 +94,7 @@ function addToastify(errorMessage) {
     position: "right",
     stopOnFocus: true,
     style: {
-      background: "linear-gradient(to right, #00b09b, #96c93d)"
+      background: "linear-gradient(to right, #ff0000, #800000)"
     },
     offset: {
       x: 50,
@@ -201,6 +209,11 @@ paginationContainer.addEventListener("click", (event) => {
 })
 
 overlay.addEventListener("click", () => {
+  overlay.style.visibility = "hidden"
+  selectedCountry.style.visibility = "hidden"
+});
+
+closeBtn.addEventListener("click", () => {
   overlay.style.visibility = "hidden"
   selectedCountry.style.visibility = "hidden"
 })

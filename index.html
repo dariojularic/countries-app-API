@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App API</title>
+    <title>Countries App API</title>
   </head>
   <body>
     <div class="container">
@@ -20,8 +20,8 @@
           <div class="form-container">
             <label for="select-region">Select a region: </label>
             <select name="select-region" id="select-region" class="region-filter">
-              <option value="" hidden selected disabled>Please choose an option</option>
-              <option value="all" >All</option>
+              <!-- <option value="" hidden selected disabled>Please choose an option</option> -->
+              <option value="all" selected>All</option>
               <option value="europe">Europe</option>
               <option value="asia">Asia</option>
               <option value="oceania">Oceania</option>
@@ -47,6 +47,7 @@
           <p class="currency"><span>Currency: </span><span class="span-currency"></span></p>
           <p class="languages"><span>Language: </span><span class="span-language"></span></p>
           <p class="population"><span>Population: </span><span class="span-population"></span></p>
+          <i class="fa-solid fa-x"></i>
         </div>
       </div>
 
