@@ -23,8 +23,8 @@ const baseUrl = `https://restcountries.com/v3.1/`;
 
 searchInput.addEventListener("input", (event) => searchInputValue = event.target.value)
 // iks za ugasit prozor, paginacija 20 zemalja po stranici, default all fetch
-// paginate contries samo paginira i vrati, a setAllCountries setuje
-// allCOuntries = activeCountries
+// paginate contries samo paginira i vrati, a setactiveCountries setuje
+// activeCountries = activeCountries
 // selectedCountry u state
 // selectedCoubtry = "" kad stisnem na iks/null
 
@@ -33,9 +33,21 @@ searchInput.addEventListener("input", (event) => searchInputValue = event.target
 
 class CountriesManager{
   constructor() {
-    this.allCountries = []
+    this.activeCountries = []
     this.activePage = "";
     this.selectedCountry = null
+  }
+
+  resetSelectedCountry() {
+    this.selectedCountry = null;
+  }
+
+  setSelectedCountry(country) {
+    this.selectedCountry = country;
+  }
+
+  getSelectedCountry() {
+    return this.selectedCountry;
   }
 
   setActivePage(pageNumber) {
@@ -46,22 +58,22 @@ class CountriesManager{
     return this.activePage;
   }
 
-  setAllCountries(countries) {
-    this.allCountries = countries
+  setactiveCountries(countries) {
+    this.activeCountries = countries
   }
 
-  getAllCountries() {
-    return this.allCountries
+  getactiveCountries() {
+    return this.activeCountries
   }
 
   paginateCountries(countries) {
-    this.allCountries = [];
+    this.activeCountries = [];
     const chunkSize = 10;
     let pageNumber = 1;
     pagination.innerHTML = "";
 
     for (let i = 0; i < countries.length; i += chunkSize) {
-      this.allCountries.push(countries.slice(i, i + chunkSize))
+      this.activeCountries.push(countries.slice(i, i + chunkSize))
       const html = `<li class="pagination-list-item item-${pageNumber}">${pageNumber}</li>`
       pagination.insertAdjacentHTML("beforeend", html)
       pageNumber++
@@ -148,7 +160,7 @@ regionFilter.addEventListener("input", (event) => {
       .then(data => {
         countriesManager.setActivePage(1)
         countriesManager.paginateCountries(data)
-        displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
+        displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
       })
       .catch(error => console.log(error))
       return
@@ -157,7 +169,7 @@ regionFilter.addEventListener("input", (event) => {
     factoryFetch(url)
     .then(data => {
       countriesManager.paginateCountries(data)
-      displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
+      displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
     })
     .catch(error => console.log(error))
 })
@@ -180,7 +192,7 @@ pagination.addEventListener("click", (event) => {
     pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
     countriesManager.setActivePage(listItem.textContent)
     listItem.classList.add("selected-page");
-    displayCountriesList(countriesManager.getAllCountries()[listItem.textContent - 1])
+    displayCountriesList(countriesManager.getactiveCountries()[listItem.textContent - 1])
   }
 })
 
@@ -189,23 +201,25 @@ paginationContainer.addEventListener("click", (event) => {
     pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
     countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) - 1);
     pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
-    displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
+    displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
   }
 
-  if (event.target.classList.contains("fa-arrow-right") && countriesManager.getActivePage() < countriesManager.getAllCountries().length) {
+  if (event.target.classList.contains("fa-arrow-right") && countriesManager.getActivePage() < countriesManager.getactiveCountries().length) {
     pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
     countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) + 1);
     pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
-    displayCountriesList(countriesManager.getAllCountries()[countriesManager.getActivePage() - 1])
+    displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
   }
 })
 
 overlay.addEventListener("click", () => {
   overlay.style.visibility = "hidden"
   selectedCountry.style.visibility = "hidden"
+  // countriesManager.resetSelectedCountry()
 });
 
 closeBtn.addEventListener("click", () => {
   overlay.style.visibility = "hidden"
   selectedCountry.style.visibility = "hidden"
+  // countriesManager.resetSelectedCountry()
 })
