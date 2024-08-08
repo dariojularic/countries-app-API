@@ -17,26 +17,27 @@ const selectedCountryName = document.querySelector(".span-name");
 const pagination = document.querySelector(".pagination");
 const paginationContainer = document.querySelector(".pagination-container");
 const closeBtn = document.querySelector(".fa-x");
+const loader = document.querySelector(".loader");
 
 let searchInputValue = "";
-// ocu baseUrl stavit unutar klase???
 const baseUrl = `https://restcountries.com/v3.1/`;
 
-searchInput.addEventListener("input", (event) => searchInputValue = event.target.value)
-// iks za ugasit prozor, paginacija 20 zemalja po stranici, default all fetch
-// paginate contries samo paginira i vrati, a setactiveCountries setuje
-
-
-// activeCountries = activeCountries
-// selectedCountry u state
-// selectedCoubtry = "" kad stisnem na iks/null
-
+searchInput.addEventListener("input", (event) => searchInputValue = event.target.value);
 
 class CountriesManager{
   constructor() {
-    this.activeCountries = []
-    this.activePage = "";
-    this.selectedCountry = null
+    this.allCountries = [];
+    this.activePage = 1;
+    this.activeCountries = [];
+    this.selectedCountry = null;
+  }
+
+  setAllCountries(countries) {
+    this.allCountries = countries
+  }
+
+  getAllCountries() {
+    return this.allCountries
   }
 
   resetSelectedCountry() {
@@ -52,43 +53,41 @@ class CountriesManager{
   }
 
   setActivePage(pageNumber) {
-    this.activePage = pageNumber
+    this.activePage = pageNumber;
   }
 
   getActivePage() {
     return this.activePage;
   }
 
-  setactiveCountries(countries) {
-    this.activeCountries = countries
+  resetActivePage() {
+    this.activePage = 1;
   }
 
-  getactiveCountries() {
-    return this.activeCountries
+  setActiveCountries() {
+    this.activeCountries = this.allCountries[this.activePage - 1];
+  }
+
+  getActiveCountries() {
+    return this.activeCountries;
   }
 
   paginateCountries(countries) {
-    this.activeCountries = [];
-    const chunkSize = 10;
+    const paginatedCountries = [];
+    const chunkSize = 20;
     let pageNumber = 1;
     pagination.innerHTML = "";
 
     for (let i = 0; i < countries.length; i += chunkSize) {
-      this.activeCountries.push(countries.slice(i, i + chunkSize))
-      const html = `<li class="pagination-list-item item-${pageNumber}">${pageNumber}</li>`
-      pagination.insertAdjacentHTML("beforeend", html)
-      pageNumber++
+      paginatedCountries.push(countries.slice(i, i + chunkSize));
+      const html = `<li class="pagination-list-item item-${pageNumber}">${pageNumber}</li>`;
+      pagination.insertAdjacentHTML("beforeend", html);
+      pageNumber++;
     }
-    this.setActivePage(1)
-    pagination.querySelector(`.item-${this.getActivePage()}`).classList.add("selected-page")
+    pagination.querySelector(`.item-${this.getActivePage()}`).classList.add("selected-page");
+    return paginatedCountries;
   }
 }
-
-const countriesManager = new CountriesManager();
-
-// window.addEventListener('DOMContentLoaded', (event) => {
-//   console.log('DOM fully loaded and parsed');
-// });
 
 function addToastify(errorMessage) {
   Toastify({
@@ -122,12 +121,12 @@ function displaySelectedCountry(image, capital, currency, language, population ,
 function displayCountriesList(countries) {
   countryList.innerHTML = "";
   countries.forEach(country => {
-    const { flags: {png: image}, name} = country
-    const html = `<li class="country-list-item" data-name=${name[Object.keys(name)[0]]}>
+    const { flags: {png: image}, name} = country;
+    const html = `<li class="country-list-item" data-name=${name[Object.keys(name)[0]].split(" ").join("-")}>
                     <p class="list-country-name">${name[Object.keys(name)[0]]}</p>
                     <img src=${image} class="list-flag-image">
-                  </li>`
-    countryList.insertAdjacentHTML("beforeend", html)
+                  </li>`;
+    countryList.insertAdjacentHTML("beforeend", html);
   })
 }
 
@@ -136,90 +135,112 @@ async function factoryFetch(url) {
     const response = await fetch(url)
     if (response.status !== 200) throw new Error("Something went wrong!");
     const data = await response.json();
-    return data
+    return data;
   } catch (error) {
-    addToastify(error)
+    addToastify(error);
   }
 }
 
-searchForm.addEventListener("submit",  (event) => {
-  event.preventDefault()
-  const url = baseUrl + `name/${searchInputValue}`
-  factoryFetch(url)
-    .then(data => {
-      const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
-      displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
-    })
-    .catch(error => console.log(error))
-})
+window.addEventListener('DOMContentLoaded', (event) => {
+  const countriesManager = new CountriesManager();
 
-regionFilter.addEventListener("input", (event) => {
-  if (event.target.value === "all") {
+  factoryFetch(baseUrl + "all")
+    .then(data => {
+      loader.style.visibility = "hidden";
+      paginationContainer.style.visibility = "visible"
+      countriesManager.setAllCountries(countriesManager.paginateCountries(data));
+      countriesManager.setActiveCountries();
+      displayCountriesList(countriesManager.getActiveCountries());
+    })
+    .catch(error => console.log(error));
+
+  searchForm.addEventListener("submit",  (event) => {
+    event.preventDefault();
+    const url = baseUrl + `name/${searchInputValue}?fullText=true`;
+  factoryFetch(url)
+  .then(data => {
+    countriesManager.setSelectedCountry(data[0])
+      const { flags: {png: image}, capital, currencies, languages, population, name} = countriesManager.getSelectedCountry();
+      displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]]);
+    })
+    .catch(error => console.log(error));
+  })
+
+  regionFilter.addEventListener("input", (event) => {
+    if (event.target.value === "all") {
     const url = baseUrl + event.target.value;
     factoryFetch(url)
       .then(data => {
-        countriesManager.setActivePage(1)
-        countriesManager.paginateCountries(data)
-        displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
+        countriesManager.resetActivePage();
+        countriesManager.setAllCountries(countriesManager.paginateCountries(data));
+        countriesManager.setActiveCountries()
+        displayCountriesList(countriesManager.getActiveCountries());
       })
-      .catch(error => console.log(error))
-      return
+      .catch(error => console.log(error));
+    return;
     }
-    const url = baseUrl + `region/${event.target.value}`
+    const url = baseUrl + `region/${event.target.value}`;
     factoryFetch(url)
     .then(data => {
-      countriesManager.paginateCountries(data)
-      displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
+      countriesManager.resetActivePage();
+      countriesManager.setAllCountries(countriesManager.paginateCountries(data));
+      countriesManager.setActiveCountries()
+      displayCountriesList(countriesManager.getActiveCountries());
     })
-    .catch(error => console.log(error))
-})
+    .catch(error => console.log(error));
+  })
 
-countryList.addEventListener("click", (event) => {
-  if (event.target.closest("li").getAttribute("data-name")) {
-    const url = baseUrl + `name/${event.target.closest("li").getAttribute("data-name")}`
-    factoryFetch(url)
-      .then(data => {
-        const { flags: {png: image}, capital, currencies, languages, population, name} = data[0];
-        displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]])
-      })
-      .catch(error => console.log(error))
-  }
-})
+  countryList.addEventListener("click", (event) => {
+    if (event.target.closest("li").getAttribute("data-name")) {
+      const url = baseUrl + `name/${event.target.closest("li").getAttribute("data-name").split("-").join(" ")}?fullText=true`;
+      factoryFetch(url)
+        .then(data => {
+          countriesManager.setSelectedCountry(data[0]);
+          const { flags: {png: image}, capital, currencies, languages, population, name} = countriesManager.getSelectedCountry();
+          displaySelectedCountry(image, capital, currencies[Object.keys(currencies)[0]].name, languages[Object.keys(languages)], population, name[Object.keys(name)[0]]);
+        })
+        .catch(error => console.log(error));
+      }
+  });
 
-pagination.addEventListener("click", (event) => {
-  if (event.target.closest("li").classList.contains("pagination-list-item")) {
-    const listItem = event.target.closest("li");
-    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
-    countriesManager.setActivePage(listItem.textContent)
-    listItem.classList.add("selected-page");
-    displayCountriesList(countriesManager.getactiveCountries()[listItem.textContent - 1])
-  }
-})
+  pagination.addEventListener("click", (event) => {
+    if (event.target.closest("li").classList.contains("pagination-list-item")) {
+      const listItem = event.target.closest("li");
+      pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+      countriesManager.setActivePage(listItem.textContent);
+      listItem.classList.add("selected-page");
+      countriesManager.setActiveCountries()
+      displayCountriesList(countriesManager.getActiveCountries());
+    }
+  });
 
-paginationContainer.addEventListener("click", (event) => {
-  if (event.target.classList.contains("fa-arrow-left") && countriesManager.getActivePage() > 1) {
-    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
-    countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) - 1);
-    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
-    displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
-  }
+  paginationContainer.addEventListener("click", (event) => {
+    if (event.target.classList.contains("fa-arrow-left") && countriesManager.getActivePage() > 1) {
+      pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+      countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) - 1);
+      pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
+      countriesManager.setActiveCountries()
+      displayCountriesList(countriesManager.getActiveCountries());
+    }
 
-  if (event.target.classList.contains("fa-arrow-right") && countriesManager.getActivePage() < countriesManager.getactiveCountries().length) {
-    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
-    countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) + 1);
-    pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
-    displayCountriesList(countriesManager.getactiveCountries()[countriesManager.getActivePage() - 1])
-  }
-})
+    if (event.target.classList.contains("fa-arrow-right") && countriesManager.getActivePage() < countriesManager.getAllCountries().length) {
+      pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.remove("selected-page");
+      countriesManager.setActivePage(parseInt(countriesManager.getActivePage()) + 1);
+      pagination.querySelector(`.item-${countriesManager.getActivePage()}`).classList.add("selected-page");
+      countriesManager.setActiveCountries()
+      displayCountriesList(countriesManager.getActiveCountries());
+    }
+  });
 
-overlay.addEventListener("click", () => {
-  overlay.style.visibility = "hidden"
-  selectedCountry.style.visibility = "hidden"
-  // countriesManager.resetSelectedCountry()
+  overlay.addEventListener("click", () => {
+    overlay.style.visibility = "hidden";
+    selectedCountry.style.visibility = "hidden";
+    countriesManager.resetSelectedCountry();
+  });
+
+  closeBtn.addEventListener("click", () => {
+    overlay.style.visibility = "hidden";
+    selectedCountry.style.visibility = "hidden";
+    countriesManager.resetSelectedCountry();
+  });
 });
-
-closeBtn.addEventListener("click", () => {
-  overlay.style.visibility = "hidden"
-  selectedCountry.style.visibility = "hidden"
-  // countriesManager.resetSelectedCountry()
-})
