@@ -198,7 +198,7 @@ main {
   height: 32px;
   width: 32px;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
 }
 
