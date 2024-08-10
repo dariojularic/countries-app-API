@@ -169,7 +169,7 @@ main {
   align-items: center;
 }
 
-/* .selected-page {
+.selected-page {
   background-color: #FFAD60;
 }
 
@@ -182,7 +182,7 @@ main {
   align-self: center;
   cursor: pointer;
   margin: 0 8px;
-} */
+}
 
 .fa-arrow-left:hover, .fa-arrow-right:hover {
   scale: 1.5;
